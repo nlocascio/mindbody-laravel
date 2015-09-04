@@ -1,0 +1,21 @@
+{
+    "name": "nlocascio/mindbody-laravel",
+    "description": "Laravel wrapper for MINDBODY API",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Nick LoCascio",
+            "email": "nlocascio@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "laravel/framework": "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nlocascio\\Mindbody\\": "src"
+        }
+    }
+}
