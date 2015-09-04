@@ -19,7 +19,7 @@ class MindbodyService {
         $this->userUsername = config('mindbody-laravel.user.username');
         $this->userPassword = config('mindbody-laravel.user.password');
 
-        if ( ! $this->siteIds || ! $this->sourceUsername || $this->sourcePassword || $this->userUsername || $this->userPassword)
+        if ( ! $this->siteIds || ! $this->sourceUsername || ! $this->sourcePassword || ! $this->userUsername || ! $this->userPassword)
         {
             throw new InvalidArgumentException('Please set MINDBODY_SITEIDS, MINDBODY_SOURCE_USERNAME, MINDBODY_SOURCE_PASSWORD, MINDBODY_USER_USERNAME, MINDBODY_USER_PASSWORD environment variables.');
         }
@@ -34,7 +34,7 @@ class MindbodyService {
      * @param $args
      * @return mixed
      */
-    public function call($method, $args)
+    public function __call($method, $args)
     {
         if (is_callable([$this->mindbodyAPI, $method]))
         {

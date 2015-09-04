@@ -152,7 +152,7 @@ class MindbodyAPI {
 
         try
         {
-            $result = $this->client->$methodName(array("Request" => $request));
+            $result = $this->client->$methodName(unserialize(serialize(array("Request" => $request))));
 
         } catch (SoapFault $s)
         {
