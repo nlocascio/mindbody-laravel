@@ -2,6 +2,8 @@
 
 namespace Nlocascio\Mindbody\Facades;
 
+use Illuminate\Support\Facades\Facade;
+
 class Mindbody extends Facade {
 
     /**
