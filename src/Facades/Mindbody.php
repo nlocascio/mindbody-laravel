@@ -1,6 +1,6 @@
 <?php
 
-namespace Nlocascio\Mindbody\Services;
+namespace Nlocascio\Mindbody\Facades;
 
 class Mindbody extends Facade {
 
