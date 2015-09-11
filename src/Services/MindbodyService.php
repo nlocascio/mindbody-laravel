@@ -9,15 +9,16 @@ use Nlocascio\Mindbody\Services\MindbodyAPI;
 
 class MindbodyService {
 
-    public function __construct()
+    public function __construct(array $siteIds = null, array $sourceCredentials = ['username' => null, 'password' => null], array $userCredentials = ['username' => null, 'password' => null])
     {
-        $this->siteIds = array_map('intval', config('mindbody-laravel.siteids'));
+        // You can either pass in your MINDBODY siteIds as an array, OR set a default in Config/Env.
+        $this->siteIds = (isset($siteIds)) ? $siteIds : array_map('intval', config('mindbody-laravel.siteids'));
 
-        $this->sourceUsername = config('mindbody-laravel.source.username');
-        $this->sourcePassword = config('mindbody-laravel.source.password');
+        $this->sourceUsername = $sourceCredentials['username'] ?: config('mindbody-laravel.source.username');
+        $this->sourcePassword = $sourceCredentials['password'] ?: config('mindbody-laravel.source.password');
 
-        $this->userUsername = config('mindbody-laravel.user.username');
-        $this->userPassword = config('mindbody-laravel.user.password');
+        $this->userUsername = $userCredentials['username'] ?: $sourceCredentials['username'] ? '_'.$sourceCredentials['username'] : config('mindbody-laravel.user.username');
+        $this->userPassword = $userCredentials['password'] ?: $sourceCredentials['password'] ?: config('mindbody-laravel.user.password');
 
         if ( ! $this->siteIds || ! $this->sourceUsername || ! $this->sourcePassword || ! $this->userUsername || ! $this->userPassword)
         {
