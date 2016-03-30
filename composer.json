@@ -4,8 +4,8 @@
     "version": "master",
     "type": "library",
     "dist": {
-        "url": "git@bitbucket.org:nlocascio/mindbody-laravel.git",
-        "type": "git"
+        "type": "git",
+        "url": "https://nlocascio@bitbucket.org/nlocascio/mindbody-laravel.git"
     },
     "authors": [
         {
