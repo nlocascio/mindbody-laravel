@@ -2,11 +2,6 @@
     "name": "nlocascio/mindbody-laravel",
     "description": "Laravel wrapper for MINDBODY API",
     "version": "master",
-    "type": "library",
-    "dist": {
-        "type": "git",
-        "url": "https://nlocascio@bitbucket.org/nlocascio/mindbody-laravel.git"
-    },
     "authors": [
         {
             "name": "Nick LoCascio",
