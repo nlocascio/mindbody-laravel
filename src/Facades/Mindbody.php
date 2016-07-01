@@ -11,5 +11,8 @@ class Mindbody extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'mindbody'; }
+    protected static function getFacadeAccessor()
+    {
+        return 'mindbody';
+    }
 }

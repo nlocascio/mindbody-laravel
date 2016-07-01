@@ -7,11 +7,8 @@ use \SoapClient;
 
 //ini_set("user_agent", "FOOBAR");
 
-class MindbodyAPI {
-
-    protected $sourceCredentials = [];
-    protected $userCredentials = [];
-    protected $siteIds = [];
+class MindbodyAPI
+{
 
     protected $appointmentServiceWSDL = "https://api.mindbodyonline.com/0_5/AppointmentService.asmx?WSDL";
     protected $classServiceWSDL = "https://api.mindbodyonline.com/0_5/ClassService.asmx?WSDL";
@@ -26,62 +23,45 @@ class MindbodyAPI {
     protected $apiServices = [];
 
     public $soapOptions = array('soap_version' => SOAP_1_1, 'trace' => true);
-    public $debugSoapErrors = false;
+
+    private $siteIds = [];
+    private $sourceUsername;
+    private $sourcePassword;
+    private $userUsername;
+    private $userPassword;
+    private $debugSoapErrors = false;
+    private $client;
 
     /**
      * @param array $siteIds
-     * @param array $options
+     * @param $sourceUsername
+     * @param $sourcePassword
+     * @param $userUsername
+     * @param $userPassword
+     * @param bool $debugSoapErrors
      */
-    public function __construct(array $siteIds, array $options = ['debug => false'])
+    public function __construct(array $siteIds, $sourceUsername, $sourcePassword, $userUsername = null, $userPassword = null, $debugSoapErrors = false)
     {
         $this->siteIds = $siteIds;
-        $this->debugSoapErrors = isset($options['debug']) ? $options['debug'] : false;
+        $this->sourceUsername = $sourceUsername;
+        $this->sourcePassword = $sourcePassword;
+        $this->userUsername = $userUsername;
+        $this->userPassword = $userPassword;
+        $this->debugSoapErrors = $debugSoapErrors;
 
         // set apiServices array with Mindbody WSDL locations
         $this->apiServices = [
             'AppointmentService' => $this->appointmentServiceWSDL,
-            'ClassService'       => $this->classServiceWSDL,
-            'ClientService'      => $this->clientServiceWSDL,
-            'DataService'        => $this->dataServiceWSDL,
-            'FinderService'      => $this->finderServiceWSDL,
-            'SaleService'        => $this->saleServiceWSDL,
-            'SiteService'        => $this->siteServiceWSDL,
-            'StaffService'       => $this->staffServiceWSDL
+            'ClassService' => $this->classServiceWSDL,
+            'ClientService' => $this->clientServiceWSDL,
+            'DataService' => $this->dataServiceWSDL,
+            'FinderService' => $this->finderServiceWSDL,
+            'SaleService' => $this->saleServiceWSDL,
+            'SiteService' => $this->siteServiceWSDL,
+            'StaffService' => $this->staffServiceWSDL
         ];
 
         $this->setApiMethodsArray();
-    }
-
-    /**
-     * @param $sourceUsername
-     * @param $sourcePassword
-     * @return MindbodyAPI
-     */
-    public function setSourceCredentials($sourceUsername, $sourcePassword)
-    {
-        $this->sourceCredentials = [
-            'SourceName' => $sourceUsername,
-            'Password'   => $sourcePassword,
-            'SiteIDs'    => $this->siteIds
-        ];
-
-        return $this;
-    }
-
-    /**
-     * @param $userUsername
-     * @param $userPassword
-     * @return MindbodyAPI
-     */
-    public function setUserCredentials($userUsername, $userPassword)
-    {
-        $this->userCredentials = [
-            'Username' => $userUsername,
-            'Password'   => $userPassword,
-            'SiteIDs'    => $this->siteIds
-        ];
-
-        return $this;
     }
 
     /**
@@ -96,28 +76,23 @@ class MindbodyAPI {
     public function __call($name, $arguments)
     {
         // check if method exists on one of mindbody's soap services
-        $soapService = false;
+        $soapService = null;
 
-        foreach ($this->apiMethods as $apiServiceName => $apiMethods)
-        {
-            if (in_array($name, $apiMethods))
-            {
+        foreach ($this->apiMethods as $apiServiceName => $apiMethods) {
+            if (in_array($name, $apiMethods)) {
                 $soapService = $apiServiceName;
             }
         }
 
-        if (empty($soapService))
-        {
+        if ($soapService == null) {
             throw new ErrorException("Called unknown MINDBODY API method: $name");
         }
 
-        if (empty($arguments))
-        {
+        if (empty($arguments)) {
             return $this->callMindbodyService($soapService, $name);
         }
 
-        switch (count($arguments))
-        {
+        switch (count($arguments)) {
             case 1:
                 return $this->callMindbodyService($soapService, $name, $arguments[0]);
             case 2:
@@ -132,56 +107,37 @@ class MindbodyAPI {
     /**
      * return the results of a Mindbody API method
      *
-     * @param $serviceName          - Mindbody Soap service name
-     * @param $methodName           - Mindbody API method name
-     * @param array $requestData    - Optional: parameters to API methods
-     * @param bool $returnObject    - Optional: Return the SOAP response object
+     * @param $serviceName - Mindbody Soap service name
+     * @param $methodName - Mindbody API method name
+     * @param array $requestData - Optional: parameters to API methods
      * @param bool $debugErrors
      * @return bool|mixed
      */
-    protected function callMindbodyService($serviceName, $methodName, $requestData = array(), $returnObject = true, $debugErrors = true)
+    protected function callMindbodyService($serviceName, $methodName, $requestData = array(), $debugErrors = false)
     {
-        $request = array_merge(array('SourceCredentials' => $this->sourceCredentials), $requestData);
-
-        if ( ! empty($this->userCredentials))
-        {
-            $request = array_merge(array('UserCredentials' => $this->userCredentials), $request);
-        }
+        $request = $this->addCredentials($requestData);
 
         $this->client = new SoapClient($this->apiServices[$serviceName], $this->soapOptions);
 
-        try
-        {
+        try {
             $result = $this->client->$methodName(unserialize(serialize(array("Request" => $request))));
 
-        } catch (SoapFault $s)
-        {
-            if ($this->debugSoapErrors && $debugErrors)
-            {
+        } catch (SoapFault $s) {
+            if ($this->debugSoapErrors && $debugErrors) {
                 echo 'ERROR: [' . $s->faultcode . '] ' . $s->faultstring;
                 $this->debug();
 
                 return false;
             }
-        } catch (Exception $e)
-        {
-            if ($this->debugSoapErrors && $debugErrors)
-            {
+        } catch (Exception $e) {
+            if ($this->debugSoapErrors && $debugErrors) {
                 echo 'ERROR: ' . $e->getMessage();
 
                 return false;
             }
         }
 
-        if ($returnObject)
-        {
-            return $result;
-        } else
-        {
-            return json_decode(json_encode($result), 1);
-        }
-
-
+        return $result;
     }
 
     /**
@@ -210,32 +166,15 @@ class MindbodyAPI {
     }
 
     /**
-     * @param $data
-     * @return array
-     */
-    public function makeNumericArray($data)
-    {
-        if (is_array($data) && isset($data[0]))
-        {
-            return $data;
-        } else
-        {
-            return array($data);
-        }
-    }
-
-    /**
      *
      */
     private function setApiMethodsArray()
     {
-        foreach ($this->apiServices as $serviceName => $serviceWSDL)
-        {
+        foreach ($this->apiServices as $serviceName => $serviceWSDL) {
             $client = new SoapClient($serviceWSDL, $this->soapOptions);
 
             $this->apiMethods = array_merge($this->apiMethods, array($serviceName => array_map(
-                function ($n)
-                {
+                function ($n) {
                     $start = 1 + strpos($n, ' ');
                     $end = strpos($n, '(');
                     $length = $end - $start;
@@ -245,6 +184,74 @@ class MindbodyAPI {
             )));
         }
     }
+
+    /**
+     * @return array
+     */
+    private function getSourceCredentials()
+    {
+        return [
+            'SourceName' => $this->sourceUsername,
+            'Password' => $this->sourcePassword,
+            'SiteIDs' => $this->siteIds
+        ];
+
+    }
+
+    private function getUserCredentials()
+    {
+        return [
+            'Username' => $this->userUsername,
+            'Password' => $this->userPassword,
+            'SiteIDs' => $this->siteIds
+        ];
+    }
+
+    /**
+     * @param $requestData
+     * @return array
+     */
+    protected function addSourceCredentials($requestData)
+    {
+        $request = array_merge(array('SourceCredentials' => $this->getSourceCredentials()), $requestData);
+        return $request;
+    }
+
+    /**
+     * @param $request
+     * @return array
+     */
+    protected function addUserCredentials($request)
+    {
+        $request = array_merge(array('UserCredentials' => $this->getUserCredentials()), $request);
+        return $request;
+    }
+
+    /**
+     * @param $requestData
+     * @return array
+     */
+    protected function addCredentials($requestData)
+    {
+        $request = $this->addSourceCredentials($requestData);
+
+        if ($this->userUsername && $this->userPassword) {
+            $request = $this->addUserCredentials($request);
+        }
+
+        return $request;
+    }
+
+    /**
+     * @param array $siteIds
+     * @return MindbodyAPI
+     */
+    public function setSiteIds($siteIds)
+    {
+        $this->siteIds = $siteIds;
+        return $this;
+    }
+
 
 //    public function sortClassesByDate(array $classes)
 //    {

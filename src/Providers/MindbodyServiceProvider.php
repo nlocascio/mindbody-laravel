@@ -2,40 +2,44 @@
 
 namespace Nlocascio\Mindbody\Providers;
 
-use Mindbody;
+use Nlocascio\Mindbody\Facades\Mindbody;
 use Illuminate\Support\ServiceProvider;
+use Nlocascio\Mindbody\Services\MindbodyAPI;
+use Nlocascio\Mindbody\Services\MindbodyService;
 
-class MindbodyServiceProvider extends ServiceProvider {
+class MindbodyServiceProvider extends ServiceProvider
+{
 
     protected $defer = false;
 
     /**
-     * Register and merge config.
+     * Merge config.
      */
-    public function register()
+    public function boot()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/mindbody-laravel.php', 'mindbody-laravel'
+            __DIR__ . '/../../config/mindbody.php', 'mindbody'
         );
     }
 
     /**
      * Bind service to 'mindbody' for user with Facade
      */
-    public function boot()
+    public function register()
     {
-        $this->app->bind('mindbody', 'Nlocascio\Mindbody\Services\MindbodyService');
+        $this->app->singleton('Mindbody', function () {
+            return new MindbodyService;
+        });
     }
 
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [];
-    }
+//    /**
+//     * Get the services provided by the provider.
+//     *
+//     * @return array
+//     */
+//    public function provides()
+//    {
+//        return ['Mindbody'];
+//    }
 
 }
