@@ -27,7 +27,7 @@ class MindbodyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Mindbody', function () {
+        $this->app->singleton('mindbody', function () {
             return new MindbodyService;
         });
     }
