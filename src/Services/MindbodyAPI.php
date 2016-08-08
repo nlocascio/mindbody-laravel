@@ -5,8 +5,6 @@ namespace Nlocascio\Mindbody\Services;
 use ErrorException;
 use \SoapClient;
 
-//ini_set("user_agent", "FOOBAR");
-
 class MindbodyAPI
 {
 
@@ -52,13 +50,13 @@ class MindbodyAPI
         // set apiServices array with Mindbody WSDL locations
         $this->apiServices = [
             'AppointmentService' => $this->appointmentServiceWSDL,
-            'ClassService' => $this->classServiceWSDL,
-            'ClientService' => $this->clientServiceWSDL,
-            'DataService' => $this->dataServiceWSDL,
-            'FinderService' => $this->finderServiceWSDL,
-            'SaleService' => $this->saleServiceWSDL,
-            'SiteService' => $this->siteServiceWSDL,
-            'StaffService' => $this->staffServiceWSDL
+            'ClassService'       => $this->classServiceWSDL,
+            'ClientService'      => $this->clientServiceWSDL,
+            'DataService'        => $this->dataServiceWSDL,
+            'FinderService'      => $this->finderServiceWSDL,
+            'SaleService'        => $this->saleServiceWSDL,
+            'SiteService'        => $this->siteServiceWSDL,
+            'StaffService'       => $this->staffServiceWSDL
         ];
 
         $this->setApiMethodsArray();
@@ -101,7 +99,6 @@ class MindbodyAPI
                 return $this->callMindbodyService($soapService, $name, $arguments[0], $arguments[1], $arguments[2]);
         }
 
-
     }
 
     /**
@@ -109,13 +106,14 @@ class MindbodyAPI
      *
      * @param $serviceName - Mindbody Soap service name
      * @param $methodName - Mindbody API method name
-     * @param array $requestData - Optional: parameters to API methods
+     * @param array $request
      * @param bool $debugErrors
      * @return bool|mixed
+     * @internal param array $requestData - Optional: parameters to API methods
      */
-    protected function callMindbodyService($serviceName, $methodName, $requestData = array(), $debugErrors = false)
+    protected function callMindbodyService($serviceName, $methodName, array $request = [], $debugErrors = false)
     {
-        $request = $this->addCredentials($requestData);
+        $request = $this->addCredentials($request);
 
         $this->client = new SoapClient($this->apiServices[$serviceName], $this->soapOptions);
 
@@ -192,10 +190,9 @@ class MindbodyAPI
     {
         return [
             'SourceName' => $this->sourceUsername,
-            'Password' => $this->sourcePassword,
-            'SiteIDs' => $this->siteIds
+            'Password'   => $this->sourcePassword,
+            'SiteIDs'    => $this->siteIds
         ];
-
     }
 
     private function getUserCredentials()
@@ -203,7 +200,7 @@ class MindbodyAPI
         return [
             'Username' => $this->userUsername,
             'Password' => $this->userPassword,
-            'SiteIDs' => $this->siteIds
+            'SiteIDs'  => $this->siteIds
         ];
     }
 
@@ -214,6 +211,7 @@ class MindbodyAPI
     protected function addSourceCredentials($requestData)
     {
         $request = array_merge(array('SourceCredentials' => $this->getSourceCredentials()), $requestData);
+
         return $request;
     }
 
@@ -224,16 +222,18 @@ class MindbodyAPI
     protected function addUserCredentials($request)
     {
         $request = array_merge(array('UserCredentials' => $this->getUserCredentials()), $request);
+
         return $request;
     }
 
     /**
-     * @param $requestData
+     * @param $request
      * @return array
+     * @internal param $requestData
      */
-    protected function addCredentials($requestData)
+    protected function addCredentials($request)
     {
-        $request = $this->addSourceCredentials($requestData);
+        $request = $this->addSourceCredentials($request);
 
         if ($this->userUsername && $this->userPassword) {
             $request = $this->addUserCredentials($request);
@@ -246,92 +246,11 @@ class MindbodyAPI
      * @param array $siteIds
      * @return MindbodyAPI
      */
-    public function setSiteIds($siteIds)
+    public function setSiteIds(array $siteIds)
     {
         $this->siteIds = $siteIds;
+
         return $this;
     }
-
-
-//    public function sortClassesByDate(array $classes)
-//    {
-//        //Sort by datetime
-//        usort($classes, function ($a, $b)
-//        {
-//            $t1 = strtotime($a->StartDateTime);
-//            $t2 = strtotime($b->StartDateTime);
-//
-//            return $t1 - $t2;
-//        });
-//
-//        return $classes;
-//    }
-
-
-//    public function replace_empty_arrays_with_nulls(array $array)
-//    {
-//        foreach ($array as &$value)
-//        {
-//            if (is_array($value))
-//            {
-//                if (empty($value))
-//                {
-//                    $value = null;
-//                } else
-//                {
-//                    $value = $this->replace_empty_arrays_with_nulls($value);
-//                }
-//            }
-//        }
-//
-//        return $array;
-//    }
-
-//    public function FunctionDataXml()
-//    {
-//        $passed = func_get_args();
-//        $request = empty($passed[0]) ? null : $passed[0];
-//        $returnObject = empty($passed[1]) ? null : $passed[1];
-//        $debugErrors = empty($passed[2]) ? null : $passed[2];
-//        $data = $this->callMindbodyService('DataService', 'FunctionDataXml', $request);
-//        $xmlString = $this->getXMLResponse();
-//        $sxe = new SimpleXMLElement($xmlString);
-//        $sxe->registerXPathNamespace("mindbody", "http://clients.mindbodyonline.com/api/0_5");
-//        $res = $sxe->xpath("//mindbody:FunctionDataXmlResponse");
-//        if ($returnObject)
-//        {
-//            return $res[0];
-//        } else
-//        {
-//            return $this->replace_empty_arrays_with_nulls(json_decode(json_encode($res[0]), 1));
-//        }
-//    }
-
-    /*
-    ** overrides SelectDataXml method to remove some invalid XML element names
-    **
-    ** string $query - a TSQL query
-    */
-//    public function SelectDataXml($query, $returnObject = false, $debugErrors = true)
-//    {
-//        $result = $this->callMindbodyService('DataService', 'SelectDataXml', array('SelectSql' => $query), $returnObject, $debugErrors);
-//        $xmlString = $this->getXMLResponse();
-//        // replace some invalid xml element names
-//        $xmlString = str_replace("Current Series", "CurrentSeries", $xmlString);
-//        $xmlString = str_replace("Item#", "ItemNum", $xmlString);
-//        $xmlString = str_replace("Massage Therapist", "MassageTherapist", $xmlString);
-//        $xmlString = str_replace("Workshop Instructor", "WorkshopInstructor", $xmlString);
-//        $sxe = new SimpleXMLElement($xmlString);
-//        $sxe->registerXPathNamespace("mindbody", "http://clients.mindbodyonline.com/api/0_5");
-//        $res = $sxe->xpath("//mindbody:SelectDataXmlResponse");
-//        if ($returnObject)
-//        {
-//            return $res[0];
-//        } else
-//        {
-//            return $this->replace_empty_arrays_with_nulls(json_decode(json_encode($res[0]), 1));
-//        }
-//    }
-
 
 }

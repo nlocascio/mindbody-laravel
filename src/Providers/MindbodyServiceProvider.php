@@ -9,8 +9,7 @@ use Nlocascio\Mindbody\Services\MindbodyService;
 
 class MindbodyServiceProvider extends ServiceProvider
 {
-
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Merge config.
@@ -23,7 +22,7 @@ class MindbodyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind service to 'mindbody' for user with Facade
+     * Bind service to 'mindbody' for use with Facade
      */
     public function register()
     {
@@ -31,15 +30,5 @@ class MindbodyServiceProvider extends ServiceProvider
             return new MindbodyService;
         });
     }
-
-//    /**
-//     * Get the services provided by the provider.
-//     *
-//     * @return array
-//     */
-//    public function provides()
-//    {
-//        return ['Mindbody'];
-//    }
 
 }

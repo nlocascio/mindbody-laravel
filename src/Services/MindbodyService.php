@@ -28,13 +28,12 @@ class MindbodyService
         $userUsername = $userUsername ?: config('mindbody.user.username');
         $userPassword = $userPassword ?: config('mindbody.user.password');
 
-        if (!$siteIds || !$sourceUsername || !$sourcePassword || !$userUsername || !$userPassword) {
+        if (!$siteIds || !$sourceUsername || !$sourcePassword ) {
             throw new InvalidArgumentException('Please set MINDBODY_SITEIDS, MINDBODY_SOURCE_USERNAME, MINDBODY_SOURCE_PASSWORD environment variables.');
         }
 
         $this->mindbodyAPI = new MindbodyAPI($siteIds, $sourceUsername, $sourcePassword, $userUsername, $userPassword);
     }
-
 
     /**
      * @param $method
