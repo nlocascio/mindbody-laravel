@@ -2,9 +2,7 @@
 
 namespace Nlocascio\Mindbody\Providers;
 
-use Nlocascio\Mindbody\Facades\Mindbody;
 use Illuminate\Support\ServiceProvider;
-use Nlocascio\Mindbody\Services\MindbodyAPI;
 use Nlocascio\Mindbody\Services\MindbodyService;
 
 class MindbodyServiceProvider extends ServiceProvider
@@ -16,8 +14,12 @@ class MindbodyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/../../config/mindbody.php' => config_path('mindbody.php'),
+        ]);
+
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/mindbody.php', 'mindbody'
+            __DIR__.'/../../config/mindbody.php', 'mindbody'
         );
     }
 

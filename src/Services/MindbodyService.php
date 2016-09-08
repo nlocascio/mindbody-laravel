@@ -10,7 +10,7 @@ use Nlocascio\Mindbody\Services\MindbodyAPI;
 class MindbodyService
 {
 
-    private $mindbodyAPI;
+    protected $mindbodyAPI;
 
     /**
      * MindbodyService constructor.

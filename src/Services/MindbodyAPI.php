@@ -7,7 +7,6 @@ use \SoapClient;
 
 class MindbodyAPI
 {
-
     protected $appointmentServiceWSDL = "https://api.mindbodyonline.com/0_5/AppointmentService.asmx?WSDL";
     protected $classServiceWSDL = "https://api.mindbodyonline.com/0_5/ClassService.asmx?WSDL";
     protected $clientServiceWSDL = "https://api.mindbodyonline.com/0_5/ClientService.asmx?WSDL";
@@ -47,7 +46,7 @@ class MindbodyAPI
         $this->userPassword = $userPassword;
         $this->debugSoapErrors = $debugSoapErrors;
 
-        // set apiServices array with Mindbody WSDL locations
+        // set apiServices array with MindbodyService WSDL locations
         $this->apiServices = [
             'AppointmentService' => $this->appointmentServiceWSDL,
             'ClassService'       => $this->classServiceWSDL,
@@ -64,7 +63,7 @@ class MindbodyAPI
 
     /**
      * magic method will search $this->apiMethods array for $name and call the
-     * appropriate Mindbody API method if found
+     * appropriate MindbodyService API method if found
      *
      * @param $name
      * @param $arguments
@@ -102,10 +101,10 @@ class MindbodyAPI
     }
 
     /**
-     * return the results of a Mindbody API method
+     * return the results of a MindbodyService API method
      *
-     * @param $serviceName - Mindbody Soap service name
-     * @param $methodName - Mindbody API method name
+     * @param $serviceName - MindbodyService Soap service name
+     * @param $methodName - MindbodyService API method name
      * @param array $request
      * @param bool $debugErrors
      * @return bool|mixed
