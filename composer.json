@@ -1,7 +1,7 @@
 {
     "name": "nlocascio/mindbody-laravel",
     "description": "Laravel wrapper for MINDBODY API",
-    "version": "master",
+    "version": "0.1.0",
     "authors": [
         {
             "name": "Nick LoCascio",
