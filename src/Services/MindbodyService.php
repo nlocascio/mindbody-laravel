@@ -14,25 +14,15 @@ class MindbodyService
 
     /**
      * MindbodyService constructor.
-     * @param array|null $siteIds
-     * @param null $sourceUsername
-     * @param null $sourcePassword
-     * @param null $userUsername
-     * @param null $userPassword
+     * @param array $config
      */
-    public function __construct(array $siteIds = null, $sourceUsername = null, $sourcePassword = null, $userUsername = null, $userPassword = null)
+    public function __construct(array $config)
     {
-        $siteIds = $siteIds ?: array_map('intval', config('mindbody.siteids'));
-        $sourceUsername = $sourceUsername ?: config('mindbody.source.username');
-        $sourcePassword = $sourcePassword ?: config('mindbody.source.password');
-        $userUsername = $userUsername ?: config('mindbody.user.username');
-        $userPassword = $userPassword ?: config('mindbody.user.password');
-
-        if (!$siteIds || !$sourceUsername || !$sourcePassword ) {
+        if (!$config['site_ids'] || !$config['source_username'] || !$config['source_password'] ) {
             throw new InvalidArgumentException('Please set MINDBODY_SITEIDS, MINDBODY_SOURCE_USERNAME, MINDBODY_SOURCE_PASSWORD environment variables.');
         }
 
-        $this->mindbodyAPI = new MindbodyAPI($siteIds, $sourceUsername, $sourcePassword, $userUsername, $userPassword);
+        $this->mindbodyAPI = new MindbodyAPI($config['site_ids'], $config['source_username'], $config['source_password'], $config['user_username'], $config['user_password']);
     }
 
     /**

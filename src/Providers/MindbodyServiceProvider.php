@@ -10,27 +10,32 @@ class MindbodyServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
-     * Merge config.
+     * Boot ServiceProvider
      */
     public function boot()
     {
         $this->publishes([
             __DIR__.'/../../config/mindbody.php' => config_path('mindbody.php'),
         ]);
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/mindbody.php', 'mindbody'
-        );
     }
 
     /**
-     * Bind service to 'mindbody' for use with Facade
+     * Register ServiceProvider bindings
      */
     public function register()
     {
-        $this->app->singleton('mindbody', function () {
-            return new MindbodyService;
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/mindbody.php', 'mindbody'
+        );
+
+        $this->app->singleton(MindbodyService::class, function ($app) {
+            return new MindbodyService(config('mindbody'));
         });
+    }
+
+    public function provides()
+    {
+        return [MindbodyService::class];
     }
 
 }
