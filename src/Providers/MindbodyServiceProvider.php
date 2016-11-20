@@ -28,7 +28,7 @@ class MindbodyServiceProvider extends ServiceProvider
             __DIR__.'/../../config/mindbody.php', 'mindbody'
         );
 
-        $this->app->singleton(MindbodyService::class, function ($app) {
+        $this->app->singleton(MindbodyService::class, function () {
             return new MindbodyService(config('mindbody'));
         });
     }

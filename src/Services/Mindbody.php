@@ -3,6 +3,7 @@
 namespace Nlocascio\Mindbody\Services;
 
 use ErrorException;
+use Nlocascio\Mindbody\Exceptions\MindbodyErrorException;
 use SoapClient;
 
 class Mindbody {
@@ -131,12 +132,12 @@ class Mindbody {
 
     /**
      * @param $response
-     * @throws ErrorException
+     * @throws MindbodyErrorException
      */
     private function validateResponse($response)
     {
         if ($response->ErrorCode != 200) {
-            throw new ErrorException("MINDBODY API Error $response->ErrorCode: $response->Message", $response->ErrorCode);
+            throw new MindbodyErrorException("API Error $response->ErrorCode: $response->Message", $response->ErrorCode);
         }
     }
 
