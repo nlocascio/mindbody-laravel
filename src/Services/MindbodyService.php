@@ -16,13 +16,20 @@ class MindbodyService
      * MindbodyService constructor.
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct($config)
     {
-        if (!$config['site_ids'] || !$config['source_username'] || !$config['source_password'] ) {
+        if ( ! $config['site_ids'] || ! $config['source_credentials']['username'] || ! $config['source_credentials']['password'] ) {
             throw new InvalidArgumentException('Please set MINDBODY_SITEIDS, MINDBODY_SOURCE_USERNAME, MINDBODY_SOURCE_PASSWORD environment variables.');
         }
 
-        $this->mindbodyAPI = new MindbodyAPI($config['site_ids'], $config['source_username'], $config['source_password'], $config['user_username'], $config['user_password']);
+        $this->mindbodyAPI = new Mindbody(
+            $config['wsdls'],
+            $config['site_ids'],
+            $config['source_credentials']['username'],
+            $config['source_credentials']['password'],
+            $config['user_credentials']['username'],
+            $config['user_credentials']['password']
+        );
     }
 
     /**

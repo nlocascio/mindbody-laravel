@@ -1,7 +1,7 @@
 {
     "name": "nlocascio/mindbody-laravel",
     "description": "Laravel wrapper for MINDBODY API",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
         {
             "name": "Nick LoCascio",
@@ -10,8 +10,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0",
-        "orchestra/testbench": "^3.0"
+        "php": ">=5.4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.6"
