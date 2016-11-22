@@ -7,8 +7,7 @@ use Config;
 use InvalidArgumentException;
 use Nlocascio\Mindbody\Services\MindbodyAPI;
 
-class MindbodyService
-{
+class MindbodyService {
 
     protected $mindbodyAPI;
 
@@ -18,7 +17,7 @@ class MindbodyService
      */
     public function __construct($config)
     {
-        if ( ! $config['site_ids'] || ! $config['source_credentials']['username'] || ! $config['source_credentials']['password'] ) {
+        if ( ! $config['site_ids'] || ! $config['source_credentials']['username'] || ! $config['source_credentials']['password']) {
             throw new InvalidArgumentException('Please set MINDBODY_SITEIDS, MINDBODY_SOURCE_USERNAME, MINDBODY_SOURCE_PASSWORD environment variables.');
         }
 

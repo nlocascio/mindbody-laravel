@@ -5,8 +5,8 @@ namespace Nlocascio\Mindbody\Providers;
 use Illuminate\Support\ServiceProvider;
 use Nlocascio\Mindbody\Services\MindbodyService;
 
-class MindbodyServiceProvider extends ServiceProvider
-{
+class MindbodyServiceProvider extends ServiceProvider {
+
     protected $defer = true;
 
     /**
@@ -15,7 +15,7 @@ class MindbodyServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../../config/mindbody.php' => config_path('mindbody.php'),
+            __DIR__ . '/../../config/mindbody.php' => config_path('mindbody.php'),
         ]);
     }
 
@@ -25,7 +25,7 @@ class MindbodyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/mindbody.php', 'mindbody'
+            __DIR__ . '/../../config/mindbody.php', 'mindbody'
         );
 
         $this->app->singleton(MindbodyService::class, function () {
