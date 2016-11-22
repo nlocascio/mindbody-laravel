@@ -44,67 +44,6 @@ class Mindbody {
     }
 
     /**
-     * @param $methodName
-     * @return mixed
-     * @throws ErrorException
-     */
-    private function getWsdlForMethod($methodName)
-    {
-        foreach ($this->wsdls as $wsdl) {
-            $client = new SoapClient($wsdl);
-
-            if (str_contains(implode(" ", $client->__getFunctions()), " ".$methodName."(")) {
-                return $wsdl;
-            }
-        }
-
-        throw new ErrorException("Called unknown MINDBODY API Method: $methodName");
-    }
-
-    /**
-     * Get Request Credentials
-     *
-     * @return mixed
-     */
-    private function getCredentials() {
-        $credentials['SourceCredentials'] = $this->getSourceCredentials();
-
-        if ($this->getUserCredentials()) {
-            $credentials['UserCredentials'] = $this->getSourceCredentials();
-        }
-
-        return $credentials;
-    }
-
-    /**
-     * @return array
-     */
-    private function getSourceCredentials()
-    {
-        return [
-            'SourceName' => $this->sourceUsername,
-            'Password'   => $this->sourcePassword,
-            'SiteIDs'    => $this->siteIds
-        ];
-    }
-
-    /**
-     * @return array|null
-     */
-    private function getUserCredentials()
-    {
-        if ( ! $this->userUsername || ! $this->userPassword ) {
-            return null;
-        };
-
-        return [
-            'Username' => $this->userUsername,
-            'Password'   => $this->userPassword,
-            'SiteIDs'    => $this->siteIds
-        ];
-    }
-
-    /**
      * Set the MINDBODY SiteIDs
      *
      * @param array $siteIds
@@ -131,17 +70,6 @@ class Mindbody {
     }
 
     /**
-     * @param $response
-     * @throws MindbodyErrorException
-     */
-    private function validateResponse($response)
-    {
-        if ($response->ErrorCode != 200) {
-            throw new MindbodyErrorException("API Error $response->ErrorCode: $response->Message", $response->ErrorCode);
-        }
-    }
-
-    /**
      * @param $methodName
      * @param $request
      * @return mixed
@@ -157,5 +85,77 @@ class Mindbody {
         return $response;
     }
 
+    /**
+     * @param $methodName
+     * @return mixed
+     * @throws ErrorException
+     */
+    private function getWsdlForMethod($methodName)
+    {
+        foreach ($this->wsdls as $wsdl) {
+            $client = new SoapClient($wsdl);
+
+            if (str_contains(implode(" ", $client->__getFunctions()), " " . $methodName . "(")) {
+                return $wsdl;
+            }
+        }
+
+        throw new ErrorException("Called unknown MINDBODY API Method: $methodName");
+    }
+
+    /**
+     * @param $response
+     * @throws MindbodyErrorException
+     */
+    private function validateResponse($response)
+    {
+        if ($response->ErrorCode != 200) {
+            throw new MindbodyErrorException("API Error $response->ErrorCode: $response->Message", $response->ErrorCode);
+        }
+    }
+
+    /**
+     * Get Request Credentials
+     *
+     * @return mixed
+     */
+    private function getCredentials()
+    {
+        $credentials['SourceCredentials'] = $this->getSourceCredentials();
+
+        if ($this->getUserCredentials()) {
+            $credentials['UserCredentials'] = $this->getUserCredentials();
+        }
+
+        return $credentials;
+    }
+
+    /**
+     * @return array
+     */
+    private function getSourceCredentials()
+    {
+        return [
+            'SourceName' => $this->sourceUsername,
+            'Password'   => $this->sourcePassword,
+            'SiteIDs'    => $this->siteIds
+        ];
+    }
+
+    /**
+     * @return array|null
+     */
+    private function getUserCredentials()
+    {
+        if ( ! $this->userUsername || ! $this->userPassword) {
+            return null;
+        };
+
+        return [
+            'Username' => $this->userUsername,
+            'Password' => $this->userPassword,
+            'SiteIDs'  => $this->siteIds
+        ];
+    }
 
 }
