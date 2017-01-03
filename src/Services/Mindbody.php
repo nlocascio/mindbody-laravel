@@ -32,7 +32,7 @@ class Mindbody {
      * @param $parameters
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call($method, array $parameters = [[]])
     {
         $request = array_merge($parameters[0], $this->getCredentials());
 
