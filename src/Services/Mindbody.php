@@ -32,9 +32,9 @@ class Mindbody {
      * @param $parameters
      * @return mixed
      */
-    public function __call($method, array $parameters = [[]])
+    public function __call($method, array $parameters = [])
     {
-        $request = array_merge($parameters[0], $this->getCredentials());
+        $request = empty($parameters) ? [] : $parameters[0];
 
         $response = $this->callMindbodyApi($method, $request);
 
@@ -74,12 +74,12 @@ class Mindbody {
      * @param $request
      * @return mixed
      */
-    private function callMindbodyApi($methodName, $request)
+    private function callMindbodyApi($methodName, array $request)
     {
         $client = new SoapClient($this->getWsdlForMethod($methodName));
 
         $response = $client->$methodName([
-            'Request' => $request
+            'Request' => array_merge($this->getCredentials(), $request)
         ])->{$methodName . 'Result'};
 
         return $response;
