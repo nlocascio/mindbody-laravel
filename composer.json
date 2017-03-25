@@ -28,6 +28,8 @@
         }
     },
     "autoload-dev": {
-        "Nlocascio\\Mindbody\\Tests\\": "tests"
+        "psr-4": {
+            "Nlocascio\\Mindbody\\Tests\\": "tests"
+        }
     }
 }
