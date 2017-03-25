@@ -19,7 +19,8 @@
     },
     "require-dev": {
         "vlucas/phpdotenv": "^2.4",
-        "orchestra/testbench": "~3.0"
+        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "^5.4"
     },
     "autoload": {
         "psr-4": {
