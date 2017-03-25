@@ -1,22 +1,32 @@
 {
     "name": "nlocascio/mindbody-laravel",
     "description": "Laravel wrapper for MINDBODY API",
+    "keywords": [
+        "laravel",
+        "mindbody"
+    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Nick LoCascio",
             "email": "nlocascio@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0"
+        "php": "^7.0",
+        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.6"
+        "vlucas/phpdotenv": "^2.4",
+        "orchestra/testbench": "~3.0"
     },
     "autoload": {
         "psr-4": {
             "Nlocascio\\Mindbody\\": "src"
         }
+    },
+    "autoload-dev": {
+        "Nlocascio\\Mindbody\\Tests\\": "tests"
     }
 }
