@@ -29,6 +29,10 @@ abstract class TestCase extends BaseTestCase
      */
     private function loadEnvironmentVariables()
     {
+        if (! file_exists(__DIR__ . '/../.env')) {
+            return;
+        }
+
         $dotenv = new Dotenv(__DIR__ . '/../');
         $dotenv->load();
         $dotenv->required(['MINDBODY_SITEIDS', 'MINDBODY_SOURCENAME', 'MINDBODY_SOURCEPASSWORD']);
