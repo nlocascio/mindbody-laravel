@@ -1,9 +1,9 @@
-#Laravel MINDBODY
+# Laravel MINDBODY
 Access the MINDBODY API from your Laravel application.
 
 [![Latest Stable Version](https://img.shields.io/github/release/nlocascio/mindbody-laravel.svg?style=flat-square)](https://packagist.org/packages/nlocascio/mindbody-laravel)
 
-##Requirements
+## Requirements
 This package requires:
 - PHP __7.0__+
 - Laravel __5.1__+
@@ -14,17 +14,17 @@ You will also need the following credentials to access the MINDBODY API:
 
 For API credentials and documentation, visit the [MINDBODY Developers site](https://developers.mindbodyonline.com/).
 
-##Installation
+## Installation
 Install the package through Composer:
 ```
 composer require nlocascio/mindbody-laravel
 ```
-#####Registering the Service Provider
+##### Registering the Service Provider
 Append the service provider to the `providers` key in  `config/app.php`:
 ```php
 Nlocascio\Mindbody\MindbodyServiceProvider::class
 ```
-#####Configuring API Credentials
+##### Configuring API Credentials
 Configure your API credentials by defining the following environment variables in `.env`:
 ```
 MINDBODY_SOURCENAME=                // Your Source Name
@@ -32,8 +32,8 @@ MINDBODY_SOURCEPASSWORD=            // Your Source Password
 MINDBODY_SITEIDS=                   // Site ID. (Also accepts a comma-delimitted list of IDs)
 ```
 
-##Usage
-#####Option 1: Type-hinting
+## Usage
+##### Option 1: Type-hinting
 You may type-hint the `Mindbody` class in methods of classes which are resolved by the service container:
 ```php
 public function index(Mindbody $mindbody)
@@ -42,7 +42,7 @@ public function index(Mindbody $mindbody)
 }
 ```
 
-#####Option 2: Manually resolve out of the service container
+##### Option 2: Manually resolve out of the service container
 ```php
 use Nlocascio\Mindbody\Services\Mindbody;
 
@@ -58,7 +58,7 @@ public function index()
 }
 ```
 
-####Passing Arguments
+#### Passing Arguments
 ```php
 $mindbody = resolve(Mindbody::class);
 
