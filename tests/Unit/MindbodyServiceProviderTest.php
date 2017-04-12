@@ -2,8 +2,8 @@
 
 namespace Nlocascio\Mindbody\Tests;
 
+use Nlocascio\Mindbody\Mindbody;
 use Nlocascio\Mindbody\MindbodyServiceProvider;
-use Nlocascio\Mindbody\Services\Mindbody;
 use Nlocascio\Mindbody\Tests\TestCase as BaseTestCase;
 
 class MindbodyServiceProviderTest extends BaseTestCase

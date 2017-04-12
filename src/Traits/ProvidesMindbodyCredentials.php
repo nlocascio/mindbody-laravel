@@ -1,6 +1,6 @@
 <?php
 
-namespace Nlocascio\Mindbody\Services;
+namespace Nlocascio\Mindbody\Traits;
 
 trait ProvidesMindbodyCredentials
 {
@@ -26,9 +26,9 @@ trait ProvidesMindbodyCredentials
     protected function getSourceCredentials()
     {
         return [
-            'SourceName' => $this->settings['source_credentials']['username'],
-            'Password' => $this->settings['source_credentials']['password'],
-            'SiteIDs'  => $this->settings['site_ids']
+            'SourceName' => $this->settings[$this->connection]['source_credentials']['username'],
+            'Password' => $this->settings[$this->connection]['source_credentials']['password'],
+            'SiteIDs'  => $this->settings[$this->connection]['site_ids']
         ];
     }
 
@@ -38,9 +38,9 @@ trait ProvidesMindbodyCredentials
     protected function getUserCredentials()
     {
         return [
-            'Username' => $this->settings['user_credentials']['username'],
-            'Password' => $this->settings['user_credentials']['password'],
-            'SiteIDs'  => $this->settings['site_ids']
+            'Username' => $this->settings[$this->connection]['user_credentials']['username'],
+            'Password' => $this->settings[$this->connection]['user_credentials']['password'],
+            'SiteIDs'  => $this->settings[$this->connection]['site_ids']
         ];
     }
 }

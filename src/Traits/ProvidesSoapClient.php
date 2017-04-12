@@ -1,6 +1,6 @@
 <?php
 
-namespace Nlocascio\Mindbody\Services;
+namespace Nlocascio\Mindbody\Traits;
 
 use Nlocascio\Mindbody\Exceptions\MindbodyErrorException;
 
@@ -29,7 +29,7 @@ trait ProvidesSoapClient
      */
     private function getSoapClientForMethod($methodName)
     {
-        foreach ($this->settings['endpoints'] as $wsdl) {
+        foreach ($this->settings[$this->connection]['endpoints'] as $wsdl) {
             $client = $this->soapClient($wsdl);
 
             if (str_contains(implode(" ", $client->__getFunctions()), " " . $methodName . "(")) {

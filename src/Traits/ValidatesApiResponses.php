@@ -1,6 +1,6 @@
 <?php
 
-namespace Nlocascio\Mindbody\Services;
+namespace Nlocascio\Mindbody\Traits;
 
 use Nlocascio\Mindbody\Exceptions\MindbodyErrorException;
 

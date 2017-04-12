@@ -4,7 +4,7 @@ namespace Nlocascio\Mindbody\Tests;
 
 use InvalidArgumentException;
 use Nlocascio\Mindbody\Exceptions\MindbodyErrorException;
-use Nlocascio\Mindbody\Services\Mindbody;
+use Nlocascio\Mindbody\Mindbody;
 use Nlocascio\Mindbody\Tests\TestCase as BaseTestCase;
 
 class MindbodyTest extends BaseTestCase
