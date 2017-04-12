@@ -1,7 +1,6 @@
 {
     "name": "nlocascio/mindbody-laravel",
     "description": "Laravel wrapper for MINDBODY API",
-    "type": "library",
     "keywords": [
         "laravel",
         "mindbody"
