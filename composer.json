@@ -1,6 +1,7 @@
 {
     "name": "nlocascio/mindbody-laravel",
     "description": "Laravel wrapper for MINDBODY API",
+    "type": "library",
     "keywords": [
         "laravel",
         "mindbody"
@@ -12,7 +13,6 @@
             "email": "nlocascio@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "^7.0",
         "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.*"
