@@ -8,9 +8,12 @@ trait ProvidesSoapClient
 {
     private $options = [
         'soap_version' => SOAP_1_1,
-        'cache_wsdl'   => WSDL_CACHE_BOTH,
         'features'     => SOAP_SINGLE_ELEMENT_ARRAYS,
         'exceptions'   => true,
+        'compression'  => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP,
+        'keep_alive'   => true,
+        'trace'        => false,
+        'encoding'     => 'UTF-8',
     ];
 
     /**
