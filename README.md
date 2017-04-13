@@ -42,23 +42,27 @@ public function index(Mindbody $mindbody)
 }
 ```
 
-#### Option 2: Manually resolve out of the service container
+#### Option 2: Use Laravel's helper method
 ```php
-use Nlocascio\Mindbody\Services\Mindbody;
+use Nlocascio\Mindbody\Mindbody;
 
 public function index()
 {
-    $mindbody = $this->app->make(Mindbody::class);
-    
-    // Or use the helper method available in Laravel 5.4:
-    
     $mindbody = resolve(Mindbody::class);
     
     $mindbody->GetClients();
 }
 ```
+#### Running API functions
+Examples:
 
-#### Passing Arguments
+```php
+$mindbody = resolve(Mindbody::class);
+
+$result = $mindbody->GetSites();
+```
+
+With arguments:
 ```php
 $mindbody = resolve(Mindbody::class);
 
