@@ -3,10 +3,10 @@ language: php
 php:
   - '7.0'
   - '7.1'
-  - hhvm
   - nightly
-before_script:
-  - composer install --prefer-source --no-interaction
-  - composer dump-autoload
-script:
-  - vendor/bin/phpunit
+before_install:
+  - if [[ $TRAVIS_PHP_VERSION != 7.1 ]] ; then phpenv config-rm xdebug.ini; fi
+  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - travis_retry composer self-update
+install: travis_retry composer install --no-interaction --prefer-dist --no-suggest
+script: vendor/bin/phpunit
