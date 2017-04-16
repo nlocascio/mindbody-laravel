@@ -90,4 +90,22 @@ class MindbodyTest extends BaseTestCase
 
         $this->assertEquals($response->Status, 'Success');
     }
+
+    /** @test */
+    public function it_retrieves_all_clients()
+    {
+        $mindbody = $this->app->make(Mindbody::class);
+
+        $response = $mindbody->GetClients([
+            'XMLDetail' => 'Bare',
+            'PageSize' => 500,
+            'Fields'            => [
+                'Clients.FirstName',
+                'Clients.LastName'
+            ],
+            'SearchText' => ''
+        ]);
+
+        $this->assertCount(500, $response->Clients->Client);
+    }
 }

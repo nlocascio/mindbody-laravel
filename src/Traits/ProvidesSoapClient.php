@@ -6,23 +6,13 @@ use Nlocascio\Mindbody\Exceptions\MindbodyErrorException;
 
 trait ProvidesSoapClient
 {
-    private $options = [
-        'soap_version' => SOAP_1_1,
-        'features'     => SOAP_SINGLE_ELEMENT_ARRAYS,
-        'exceptions'   => true,
-        'compression'  => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP,
-        'keep_alive'   => true,
-        'trace'        => false,
-        'encoding'     => 'UTF-8',
-    ];
-
     /**
      * @param $wsdl
      * @return \SoapClient
      */
     private function soapClient($wsdl)
     {
-        return new \SoapClient($wsdl, $this->options);
+        return new \SoapClient($wsdl, $this->getSoapOptions());
     }
 
     /**
@@ -41,5 +31,13 @@ trait ProvidesSoapClient
         }
 
         throw new MindbodyErrorException("Called unknown MINDBODY API Method: $methodName");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSoapOptions()
+    {
+        return config('mindbody.soap_options');
     }
 }

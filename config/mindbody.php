@@ -29,7 +29,16 @@ return [
 //                 Most users will typically not need these:
 //                'DataService'        => "https://api.mindbodyonline.com/0_5/DataService.asmx?WSDL",
 //                'FinderService'      => "https://api.mindbodyonline.com/0_5/FinderService.asmx?WSDL",
-            ]
+            ],
         ]
     ],
+
+    'soap_options' => [
+        'soap_version' => SOAP_1_1,
+        'features'     => SOAP_SINGLE_ELEMENT_ARRAYS,
+        'exceptions'   => true,
+        'keep_alive'   => true,
+        'trace'        => false,
+        'encoding'     => 'UTF-8',
+    ]
 ];
