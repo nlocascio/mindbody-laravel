@@ -2,6 +2,7 @@
 Access the MINDBODY API from your Laravel application.
 
 [![Latest Stable Version](https://img.shields.io/github/release/nlocascio/mindbody-laravel.svg?style=flat-square)](https://packagist.org/packages/nlocascio/mindbody-laravel)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/nlocascio/mindbody-laravel.svg?style=flat-square)](https://packagist.org/packages/nlocascio/mindbody-laravel)
 [![Software License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE.txt)
 [![Build Status](https://img.shields.io/travis/nlocascio/mindbody-laravel/master.svg?style=flat-square)](https://travis-ci.org/nlocascio/mindbody-laravel)
 
