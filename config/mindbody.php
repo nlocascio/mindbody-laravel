@@ -27,8 +27,8 @@ return [
                 'SiteService'        => "https://api.mindbodyonline.com/0_5_1/SiteService.asmx?WSDL",
                 'StaffService'       => "https://api.mindbodyonline.com/0_5_1/StaffService.asmx?WSDL",
 //                 Most users will typically not need these:
-//                'DataService'        => "https://api.mindbodyonline.com/0_5/DataService.asmx?WSDL",
-//                'FinderService'      => "https://api.mindbodyonline.com/0_5/FinderService.asmx?WSDL",
+//                'DataService'        => "https://api.mindbodyonline.com/0_5_1/DataService.asmx?WSDL",
+//                'FinderService'      => "https://api.mindbodyonline.com/0_5_1/FinderService.asmx?WSDL",
             ],
         ]
     ],
